@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Let's Play TicTacToe!</h1>
+<div mat-dialog-content>
+  <p>Do you wanna be X or O?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close('X')">X</button>
+  <button mat-button (click)="dialogRef.close('O')" cdkFocusInitial>O</button>
+</div>

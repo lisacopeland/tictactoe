@@ -1,0 +1,12 @@
+<h3 mat-dialog-title>{{ gameOverString }}</h3>
+
+<!-- This is the content of the dialog -->
+<div mat-dialog-content>
+  <h4>Good Game! Do You Want to Play Again?</h4>
+</div>
+
+<!-- This is the 'footer' of the dialog -->
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close('yes')">Ok</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
