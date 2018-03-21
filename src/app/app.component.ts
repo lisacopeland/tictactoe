@@ -1,13 +1,14 @@
-import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-
+export class AppComponent implements OnInit, OnDestroy {
+  mobileQuery: MediaQueryList;
   playingGame = false;
   title = 'app';
   playerChoice = 'O';
@@ -32,9 +33,22 @@ export class AppComponent implements OnInit {
     'bottomRight'
   ];
 
-  constructor(public dialog: MatDialog) {}
+  private _mobileQueryListener: () => void;
+
+  constructor(public changeDetectorRef: ChangeDetectorRef,
+              public media: MediaMatcher,
+              public dialog: MatDialog,
+              public snackBar: MatSnackBar) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+    }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   startGame() {
@@ -87,6 +101,7 @@ export class AppComponent implements OnInit {
       console.log('The dialog was closed');
       this.playerChoice = result;
       console.log('Player picked :' + this.playerChoice);
+      this.openSnackBar('It\'s your turn!', 'Put an ' + this.playerChoice + ' in any square.');
       this.playerX = (this.playerChoice === 'X') ? true : false;
       if (!this.playerX) {
           this.computerChoice();
@@ -106,6 +121,8 @@ export class AppComponent implements OnInit {
       }
       if (this.checkGameStatus()) {
         this.showGameOverDialog('I Win!!!!');
+      } else {
+        this.openSnackBar('It\'s your turn!', 'Put an ' + this.playerChoice + ' in any square.');
       }
   }
 
@@ -188,6 +205,12 @@ export class AppComponent implements OnInit {
         }
       }
       return false;
+    }
+
+    openSnackBar(message: string, action: string) {
+      this.snackBar.open(message, action, {
+        duration: 2000,
+      });
     }
 }
 

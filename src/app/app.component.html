@@ -1,11 +1,17 @@
-<div class="container">
+<div class="container" [class.is-mobile]="mobileQuery.matches">
   <!-- Header for the webpage --> 
   <mat-toolbar class="game-header">
-    <h1 class="subheading-2">
+    <h1 class="subheading-2 game-title">
       Welcome to TicTacToe!
     </h1>
-    <button mat-raised-button color="accent" (click)="startGame()">Play the Game</button>
+    <button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>menu</mat-icon></button>
   </mat-toolbar>
+
+  <!-- Menu -->
+  <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item (click)="startGame()">Play the Game</button>
+    <button mat-menu-item (click)="onAbout()">About</button>
+  </mat-menu>
 
   <!-- The game board -->
   <div class="game-board">
