@@ -55,6 +55,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
   }
+  /**
+   * Popup which explains the application
+   *
+   * @memberof AppComponent
+   */
+  onAbout() {
+
+  }
 
   /**
    * Initialize game values, display modal to get player's choice of X or O
