@@ -1,8 +1,16 @@
-<h1 mat-dialog-title>Let's Play TicTacToe!</h1>
+<h2 class="mat-subheading-2" mat-dialog-title>Let's Play TicTacToe!</h2>
 <div mat-dialog-content>
-  <p>Do you wanna be X or O?</p>
+  <h4 class="mat-subheading-1">Game Level:</h4>
+  <mat-radio-group [(ngModel)]="chosenPlayLevel">
+      <mat-radio-button style="padding-right: 5px;" *ngFor="let level of levels" [value]="level">
+        {{level}}
+      </mat-radio-button>
+    </mat-radio-group>
+  <h4 class="mat-subheading-1" style="padding-top: 15px;">Do you wanna be X or O?</h4>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="dialogRef.close('X')">X</button>
-  <button mat-button (click)="dialogRef.close('O')" cdkFocusInitial>O</button>
+  <!-- <button mat-button (click)="dialogRef.close('X')">X</button>
+  <button mat-button (click)="dialogRef.close('O')" cdkFocusInitial>O</button> -->
+  <button mat-raised-button color="primary" (click)="onClose('X')">X</button>
+  <button mat-raised-button color="primary" (click)="onClose('O')">O</button>
 </div>
