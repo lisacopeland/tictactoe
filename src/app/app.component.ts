@@ -7,8 +7,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/m
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
-  mobileQuery: MediaQueryList;
+export class AppComponent implements OnInit {
+  userScore = 0;
+  computerScore = 0;
   playingGame = false;
   title = 'app';
   playerChoice = 'O';
@@ -33,22 +34,12 @@ export class AppComponent implements OnInit, OnDestroy {
     'bottomRight'
   ];
 
-  private _mobileQueryListener: () => void;
-
-  constructor(public changeDetectorRef: ChangeDetectorRef,
-              public media: MediaMatcher,
+  constructor(
               public dialog: MatDialog,
               public snackBar: MatSnackBar) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
     }
 
   ngOnInit() {
-  }
-
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   startGame() {
@@ -76,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
         this.turnCounter++;
         if (this.checkGameStatus()) {
-          // the player didn't win so let the computer take a turn
+          this.userScore++;
           this.showGameOverDialog('You Win!!!!');
         } else {
           this.computerChoice();
@@ -120,6 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.currentBoard[myChoice] = 'X';
       }
       if (this.checkGameStatus()) {
+        this.computerScore++;
         this.showGameOverDialog('I Win!!!!');
       } else {
         this.openSnackBar('It\'s your turn!', 'Put an ' + this.playerChoice + ' in any square.');
@@ -144,7 +136,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Throw up the modal and verify that user wants to delete this phoneRule
     const dialogRef = this.dialog.open(GameOverDialogComponent, {
-        disableClose: false
+      data: { computerScore: this.computerScore, userScore: this.userScore },
+      disableClose: false
     });
     dialogRef.componentInstance.gameOverString = playerMessage;
 

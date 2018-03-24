@@ -1,8 +1,10 @@
-<h3 mat-dialog-title>{{ gameOverString }}</h3>
+<h3 mat-dialog-title style="text-align:center">{{ gameOverString }}</h3>
 
 <!-- This is the content of the dialog -->
-<div mat-dialog-content>
-  <h4>Good Game! Do You Want to Play Again?</h4>
+<div mat-dialog-content class="mat-typography" style="text-align:center">
+  <h4> GREAT GAME !!!!</h4>
+  <h4>The Score: You: {{ data.userScore }} Me: {{ data.computerScore }} </h4>
+  <h4>Do You Want to Play Again?</h4>
 </div>
 
 <!-- This is the 'footer' of the dialog -->
